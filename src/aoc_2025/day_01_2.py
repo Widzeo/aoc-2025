@@ -1,6 +1,7 @@
 from operator import add, sub
 
 OPERATIONS = {'L': sub, 'R': add}
+STEPS = {'L': -1, 'R': 1}
 
 def day_01(filepath: str) -> int:
     count = 0
@@ -12,15 +13,12 @@ def day_01(filepath: str) -> int:
     for line in lines:
         operation = line[0]
         value = int(line[1:])
-        current = OPERATIONS[operation](current, value)
+        step = STEPS[operation]
 
-        while current > 99:
-            current -= 100
-        while current < 0:
-            current += 100
-
-        if current == 0:
-            count += 1
+        for _ in range(value):
+            current = (current + step) % 100
+            if current == 0:
+                count += 1
 
     return count
 
